@@ -10,8 +10,8 @@
     "format": "biome format --write"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^3.0.65",
     "@ai-sdk/react": "^3.0.193",
+    "@clerk/nextjs": "^7.4.2",
     "@radix-ui/react-use-controllable-state": "^1.2.2",
     "@rive-app/react-webgl2": "^4.28.6",
     "@streamdown/cjk": "^1.0.3",
@@ -19,7 +19,6 @@
     "@streamdown/math": "^1.0.2",
     "@streamdown/mermaid": "^1.0.2",
     "@xyflow/react": "^12.10.2",
-    "ai": "^6.0.191",
     "ansi-to-react": "^6.2.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -53,12 +52,15 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@ai-sdk/openai": "^3.0.67",
     "@biomejs/biome": "2.2.0",
+    "@openrouter/sdk": "^0.12.79",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "ai": "^6.0.194",
     "babel-plugin-react-compiler": "1.0.0",
     "tailwindcss": "^4",
     "typescript": "^5"
