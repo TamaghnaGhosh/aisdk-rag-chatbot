@@ -1,0 +1,113 @@
+1. npm i ai @ai-sdk/openai @ai-sdk/react @openrouter/sdk zod
+
+2. npx shadcn@latest add
+
+3. npx ai-elements@latest
+
+4. npm i @neondatabase/serverless drizzle-orm drizzle-kit dotenv
+
+5. npx drizzle-kit generate --custom
+
+migrate flie write this - CREATE EXTENSION IF NOT EXISTS vector;
+
+6. npx drizzle-kit migrate  
+
+--- console.neon.tech---------extecute this query in SQL Editor of the sidebar -----------
+   
+  (.) SELECT extname, extervation FROM pg_extension WHERE extname = 'vector'
+
+7. npx drizzle-kit migrate
+
+8. npm i @langchain/textsplitters
+
+9. npm i pdf-parse
+
+10. npm i @types/pdf-parse
+
+
+
+
+
+
+-----------------------------------------------Asking Questions RAG -------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+Yes — from this kind of resume chunk, you can generate RAG (Retrieval-Augmented Generation) question sets that help test semantic retrieval, entity matching, and skill-based search.
+
+Below are good RAG-style questions derived from your content.
+
+🧠 RAG Question Set (From Your Resume Chunk)
+👤 Basic Profile Questions
+Who is Tamaghna Ghosh?
+What is the professional role of Tamaghna Ghosh?
+How many years of experience does Tamaghna Ghosh have?
+What technologies does Tamaghna Ghosh specialize in?
+💻 Technical Skills Retrieval
+Which frontend technologies has Tamaghna Ghosh worked with?
+Does Tamaghna Ghosh have experience with React.js?
+What state management tools has he used?
+Is he familiar with TypeScript and Next.js?
+What JavaScript frameworks are mentioned in his profile?
+🏗️ Architecture & System Design
+What kind of architecture experience does he have?
+Has he worked with micro-frontend architecture?
+Does he have experience with monorepos?
+What type of application architecture has he implemented?
+⚡ Performance & Optimization
+What kind of optimization work has he done?
+Does he have experience building high-performance web applications?
+How does he improve frontend performance?
+What practices are used for scalable frontend development in his experience?
+🧩 State Management & Libraries
+Which state management libraries has he used?
+Has he used Redux Toolkit?
+Does he have experience with Zustand?
+What role does React Query play in his projects?
+🚀 Project & Domain Understanding
+What type of applications has he built?
+Has he worked on production-level platforms?
+What is his experience in API-driven development?
+🤖 AI & Emerging Tech
+Is he familiar with Generative AI?
+What AI-related concepts has he worked with?
+Does he have experience in modern AI integration?
+🔍 Deep Semantic / Hard RAG Questions
+
+(these are important for real RAG evaluation)
+
+What makes his frontend development experience scalable?
+How does his experience relate to modern React architecture patterns?
+Which tools in his stack support reusable component systems?
+How is his experience relevant to enterprise frontend development?
+What technologies support his micro-frontend implementation?
+🧪 Bonus: Chunk-Based Retrieval Questions (Very Important for RAG)
+
+These are used to test whether your retriever can pull correct chunk even with paraphrase:
+
+Describe the candidate’s experience in frontend engineering.
+Summarize his technical expertise.
+What are his key strengths in frontend development?
+Extract his main tech stack.
+What architecture patterns has he worked with?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
