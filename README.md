@@ -2253,3 +2253,15 @@ npm run lint
 ## Final remarks
 
 This README now contains the complete custom code and a full command reference for the project. If you want the `/upload` route to require Clerk-based admin access, rename `src/proxy.ts` to `middleware.ts` and add Clerk environment config.
+
+
+<!-- ---------------github clone of codevolution Next.js-AI-SDK-RAG-Chatbot ------------------->
+https://github.com/gopinav/Next.js-AI-SDK-RAG-Chatbot
+
+<!-- -------------------clerk authentication----------------------------->
+
+https://clerk.com/docs/nextjs/getting-started/quickstart
+
+<!-- --------------------------Neon database----------------------------->
+
+https://console.neon.tech/app/org-solitary-sun-01301959/projects
