@@ -859,15 +859,35 @@ Explanation:
 ### `src/app/api/chat/route.ts`
 
 ```ts
-import { streamText, UIMessage, convertToModelMessages, tool, InferUITools, UIDataTypes, stepCountIs } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
+import {
+  convertToModelMessages,
+  type InferUITools,
+  stepCountIs,
+  streamText,
+  tool,
+  type UIDataTypes,
+  type UIMessage,
+} from "ai";
 import { z } from "zod";
 import { searchDocuments } from "@/lib/search";
 
-const openrouter = createOpenAI({
-  apiKey: process.env.OPENROUTER_API_KEY!,
-  baseURL: "https://openrouter.ai/api/v1",
-});
+function createOpenRouter() {
+  const apiKey = process.env.OPENROUTER_API_KEY?.trim();
+
+  if (!apiKey) {
+    throw new Error("Missing OPENROUTER_API_KEY");
+  }
+
+  return createOpenAI({
+    apiKey,
+    baseURL: "https://openrouter.ai/api/v1",
+    headers: {
+      "HTTP-Referer": "http://localhost:3000",
+      "X-OpenRouter-Title": "AI SDK RAG Chatbot",
+    },
+  });
+}
 
 const tools = {
   searchKnowledgeBase: tool({
@@ -901,11 +921,12 @@ export type ChatMessage = UIMessage<never, UIDataTypes, ChatTools>;
 
 export async function POST(req: Request) {
   try {
+    const openrouter = createOpenRouter();
     const { messages }: { messages: ChatMessage[] } = await req.json();
     const modelMessages = await convertToModelMessages(messages);
 
     const result = streamText({
-      model: openrouter("openai/gpt-oss-120b:free"),
+      model: openrouter.chat("openai/gpt-oss-120b"),
       messages: modelMessages,
       tools,
       system: `You are a helpful assistant with access to a knowledge base. 
@@ -918,6 +939,15 @@ export async function POST(req: Request) {
     return result.toUIMessageStreamResponse();
   } catch (error) {
     console.error("Error streaming chat completion:", error);
+
+    if (
+      error instanceof Error &&
+      error.message === "Missing OPENROUTER_API_KEY"
+    ) {
+      return new Response("Missing OPENROUTER_API_KEY in .env.local", {
+        status: 500,
+      });
+    }
 
     return new Response("Failed to stream chat completion", { status: 500 });
   }
@@ -1003,20 +1033,32 @@ Explanation:
 import { createOpenAI } from "@ai-sdk/openai";
 import { embed, embedMany } from "ai";
 
-const openrouter = createOpenAI({
-  apiKey: process.env.OPENROUTER_API_KEY,
-  baseURL: "https://openrouter.ai/api/v1",
-});
+function createOpenRouter() {
+  const apiKey = process.env.OPENROUTER_API_KEY?.trim();
 
-const embeddingModel = openrouter.textEmbeddingModel(
-  "openai/text-embedding-3-small",
-);
+  if (!apiKey) {
+    throw new Error("Missing OPENROUTER_API_KEY");
+  }
+
+  return createOpenAI({
+    apiKey,
+    baseURL: "https://openrouter.ai/api/v1",
+    headers: {
+      "HTTP-Referer": "http://localhost:3000",
+      "X-OpenRouter-Title": "AI SDK RAG Chatbot",
+    },
+  });
+}
+
+function getEmbeddingModel() {
+  return createOpenRouter().embeddingModel("openai/text-embedding-3-small");
+}
 
 export async function generateEmbedding(text: string): Promise<number[]> {
   const input = text.replaceAll("\n", " ");
 
   const { embedding } = await embed({
-    model: embeddingModel,
+    model: getEmbeddingModel(),
     value: input,
   });
 
@@ -1027,7 +1069,7 @@ export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
   const inputs = texts.map((text) => text.replaceAll("\n", " "));
 
   const { embeddings } = await embedMany({
-    model: embeddingModel,
+    model: getEmbeddingModel(),
     values: inputs,
   });
 
@@ -1036,8 +1078,10 @@ export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
 ```
 
 Explanation:
-- Uses OpenRouter text-embedding model for vector generation.
-- Supports single or batch embedding generation.
+- Validates `OPENROUTER_API_KEY` before creating the OpenRouter client.
+- Uses OpenRouter's `openai/text-embedding-3-small` model for vector generation.
+- Normalizes newlines before creating embeddings.
+- Supports single and batch embedding generation.
 
 ### `src/lib/search.ts`
 
